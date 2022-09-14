@@ -83,6 +83,9 @@ module.exports = {
             const Financa = await financa.findAndCountAll({
                 limit: limite,
                 offset: parseInt(page),
+                include: {
+                    all: true
+                },
                 where:{
                     data:{
                         [Op.gte]: dataInicial,
@@ -127,7 +130,7 @@ module.exports = {
             });
 
             if(Financa.length === 0){
-                return response.json({saldo});
+                return response.json({Categoria, saldo});
             }
             else{
                 for(soma of Financa){
