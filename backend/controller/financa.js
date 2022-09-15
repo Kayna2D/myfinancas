@@ -3,6 +3,7 @@ const sequelize = require('sequelize');
 const model = require('../models');
 const Op = sequelize.Op;
 const financa = model.Financa;
+const categoria = model.Categoria;
 
 module.exports = {
     async create(request, response){
@@ -83,9 +84,6 @@ module.exports = {
             const Financa = await financa.findAndCountAll({
                 limit: limite,
                 offset: parseInt(page),
-                include: {
-                    all: true
-                },
                 where:{
                     data:{
                         [Op.gte]: dataInicial,
@@ -118,8 +116,16 @@ module.exports = {
     async findById(request, response){
         try {           
             const { id } = request.params;
+
             var saldo = 0;
             var soma = 0;
+            
+            const Categoria = await categoria.findOne({
+                where: {id: id}
+            });
+
+            console.log(Categoria);
+
             const Financa = await financa.findAll({
                 where: {
                     categoria_id: parseInt(id)
@@ -136,7 +142,7 @@ module.exports = {
                 for(soma of Financa){
                     saldo = saldo + soma.valor;
                 }
-                return response.json({ saldo });
+                return response.json({ Categoria, saldo });
             }
 
         } catch (error) {
