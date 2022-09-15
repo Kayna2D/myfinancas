@@ -7,13 +7,6 @@ export const Information = ({list, onSearch}) => {
     const [despesas, setDespesas] = useState(0)
     const [balanco, setBalanco] = useState(0)
 
-    const [dataInicial, setDataInicial] = useState('')
-    const [dataFinal, setDataFinal] = useState('')
-
-    function SearchFinancas() {
-        onSearch({dataInicial, dataFinal})
-    }
-
     list.map(financa => {
         api.get(`/pesquisar/financa/categoria_id/${financa.categoria_id}`).then(
             response => {
@@ -36,8 +29,6 @@ export const Information = ({list, onSearch}) => {
                     <input
                      type="date" 
                      name="initial-date"
-                     value={dataInicial}
-                     onChange={e => setDataInicial(e.target.value)} 
                     />
                 </div>
 
@@ -46,8 +37,6 @@ export const Information = ({list, onSearch}) => {
                     <input
                      type="date"
                     name="final-date"
-                    value={dataFinal}
-                    onChange={e => setDataFinal(e.target.value)}
                     />
                 </div>
 
